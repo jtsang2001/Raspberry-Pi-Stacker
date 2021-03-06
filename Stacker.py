@@ -62,24 +62,20 @@ def moveBlock(direction, currentX):
 # end of moveBlock
 
 #
-# --Main Function--
+# --normalMode Function--
 #
-def main():
+def normalMode(hat):
     #default starting location
     currentRow = 7
     currentX = [0,0,1,1,1,0,0,0]
     
     #default moving direction
-    direction = "right"
+    direction = "left"
 
     #default taken blocks
     stacked = [[0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0],
                [0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0],
                [0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0]]
-
-    hat = SenseHat()
-    hat.clear()
-    
     # game loop
     while True:
         time.sleep(SPEED)
@@ -124,6 +120,18 @@ def main():
                 elif x == 1:
                     hat.set_pixel(index, currentRow+1, (10, 255, 255))
                 index += 1
+# end of normalMode
+
+#
+# --Main Function--
+#
+def main():
+    hat = SenseHat()
+    hat.clear()
+    
+    hat.show_message("Welcome!",scroll_speed=0.1)
+    
+    normalMode(hat)
 # end of main
 
 if __name__ == "__main__":
