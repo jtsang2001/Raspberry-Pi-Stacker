@@ -8,7 +8,7 @@
 # Kristopher Poulin
 #
 
-from sense_emu import SenseHat, ACTION_RELEASED
+from sense_emu import SenseHat, ACTION_PRESSED
 from array import *
 
 import time
@@ -16,6 +16,8 @@ import time
 # CONSTANTS
 SPEED = 0.2
 SPEED_MULTIPLIER = 0.1
+WHITE = (0,0,0)
+CYAN = (10,255,255)
 
 #
 # --MoveBlock Function--
@@ -86,7 +88,7 @@ def normalMode(hat):
         # Register click events and increment row system.
         events = hat.stick.get_events()
         for event in events:
-            if event.action == ACTION_RELEASED:
+            if event.action == ACTION_PRESSED:
                 currentRow -= 1
                 clicked = True
             
@@ -104,10 +106,10 @@ def normalMode(hat):
         index = 0
         for x in currentX:
             if x == 0:
-                hat.set_pixel(index, currentRow, (0, 0, 0))
+                hat.set_pixel(index, currentRow, WHITE)
                 stacked[currentRow][index] = 0
             elif x == 1:
-                hat.set_pixel(index, currentRow, (10, 255, 255))
+                hat.set_pixel(index, currentRow, CYAN)
                 stacked[currentRow][index] = 1
             index += 1
         
@@ -116,9 +118,9 @@ def normalMode(hat):
         if clicked == True:
             for x in stacked[currentRow+1]:
                 if x == 0:
-                    hat.set_pixel(index, currentRow+1, (0, 0, 0))
+                    hat.set_pixel(index, currentRow+1, WHITE)
                 elif x == 1:
-                    hat.set_pixel(index, currentRow+1, (10, 255, 255))
+                    hat.set_pixel(index, currentRow+1, CYAN)
                 index += 1
 # end of normalMode
 
@@ -129,7 +131,7 @@ def main():
     hat = SenseHat()
     hat.clear()
     
-    hat.show_message("Welcome!",scroll_speed=0.1)
+    hat.show_message("Welcome!", text_colour=CYAN, scroll_speed=0.1)
     
     normalMode(hat)
 # end of main
