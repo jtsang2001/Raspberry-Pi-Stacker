@@ -131,9 +131,10 @@ def main():
     hat = SenseHat()
     hat.clear()
     
-    hat.show_message("Welcome!", text_colour=CYAN, scroll_speed=0.1)
+    hat.show_message("Hi!", text_colour=CYAN, scroll_speed=0.07)
+    hat.show_message("Press UP for Normal Mode, RIGHT for Endless Mode, DOWN for Time Trial Mode", scroll_speed=0.05)
     
-    normalMode(hat)
+    hat.stick.direction_up = normalMode(hat)
 # end of main
 
 if __name__ == "__main__":
