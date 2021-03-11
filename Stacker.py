@@ -15,9 +15,8 @@ import time
 
 # CONSTANTS
 SPEED = 0.2
-SPEED_MULTIPLIER = 0.1
 WHITE = (0,0,0)
-CYAN = (10,255,255)
+CYAN = (129, 240, 255)
 
 #
 # --MoveBlock Function--
@@ -94,7 +93,7 @@ def normalMode(hat):
         elif currentRow > 2:
             time.sleep(SPEED * 0.8)
         else:
-            time.sleep(SPEED * 0.5)
+            time.sleep(SPEED * 0.6)
         
         #reset clicked flag
         clicked = False
@@ -180,10 +179,10 @@ def main():
         for i in range(len(startScreen)):
             for j in range(len(startScreen[i])):
                 if startScreen[i][j] == 1:
-                    hat.set_pixel(j, i, 255, 255, 0)
+                    hat.set_pixel(j, i, 244, 208, 63)
                     
         if checker % 2:
-            hat.set_pixel(5, cursorSpot, 255, 0, 255)
+            hat.set_pixel(5, cursorSpot, 142, 68, 173)
         else:
             hat.set_pixel(5, 2, WHITE)
             hat.set_pixel(5, 4, WHITE)
@@ -221,6 +220,7 @@ def main():
                         pass
                         #hat.clear()
                         #hat.show_message("ENDLESS MODE...GO!")
+                    # lowlight line every 5 lines to show its going down
                         #endlessMode(hat)
 # end of main
 
