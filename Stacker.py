@@ -74,7 +74,7 @@ def updatePrevLine(stacked, currentRow, hat):
         elif x == 1:
             hat.set_pixel(index, currentRow+1, CYAN)
         index += 1
-# end of updatePrevLine()
+# end of updatePrevLine
 
 #
 # --normalMode Function--
@@ -147,7 +147,8 @@ def normalMode(currentRow, currentX, direction, stacked, hat):
 # --timeTrialMode Function--
 #
 def timeTrialMode(currentRow, currentX, direction, stacked, hat):
-    start_time = time.monotonic()
+    # Start the timer
+    startTime = time.monotonic()
 
     # game loop
     gameLoop = True
@@ -181,18 +182,24 @@ def timeTrialMode(currentRow, currentX, direction, stacked, hat):
                     currentX[i] = 0
                     stacked[currentRow+1][i] = 0
         
+        # Print the time for us at the moment, will put in message!
+        #print(timedelta(seconds=end_time - start_time))
+        
         #Checks if game is done
         if currentX.count(1) == 0:
-            end_time = time.monotonic()
-            hat.show_message("You lost.", scroll_speed = 0.06)
+            endTime = time.monotonic()
+            totalTime = timedelta(seconds=endTime - startTime)
+            hat.show_message("You lost. Time:" + str(totalTime.total_seconds())[:4] + "sec", scroll_speed = 0.05)
             break
         elif gameLoop == False and currentX.count(1) != 0:
-            end_time = time.monotonic()
-            hat.show_message("You won!", scroll_speed = 0.06)
+            endTime = time.monotonic()
+            totalTime = timedelta(seconds=endTime - startTime)
+            hat.show_message("You won! Time:" + str(totalTime.total_seconds())[:4] + "sec", scroll_speed = 0.05)
             break
         elif gameLoop == False and currentX.count(1) == 0:
-            end_time = time.monotonic()
-            hat.show_message("You lost.", scroll_speed = 0.06)
+            endTime = time.monotonic()
+            totalTime = timedelta(seconds=endTime - startTime)
+            hat.show_message("You lost. Time:" + str(totalTime.total_seconds())[:4] + "sec", scroll_speed = 0.05)
             break
             
         
@@ -213,9 +220,6 @@ def timeTrialMode(currentRow, currentX, direction, stacked, hat):
         # update previous line if need to remove stuff
         if clicked == True:
             updatePrevLine(stacked, currentRow, hat)
-    
-    # Print the time for us at the moment, will put in message!
-    print(timedelta(seconds=end_time - start_time))
 # end of timeTrialMode
 
 #
