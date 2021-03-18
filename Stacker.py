@@ -114,13 +114,13 @@ def normalMode(currentRow, currentX, direction, stacked, hat):
         
         #Checks if game is done
         if currentX.count(1) == 0:
-            hat.show_message("Oh No! You lost.", scroll_speed = 0.06)
+            hat.show_message("You lost.", scroll_speed = 0.05)
             break
         elif gameLoop == False and currentX.count(1) != 0:
-            hat.show_message("CONGRATS! You won!", scroll_speed = 0.06)
+            hat.show_message("You won!", scroll_speed = 0.05)
             break
         elif gameLoop == False and currentX.count(1) == 0:
-            hat.show_message("Oh No! You lost.", scroll_speed = 0.06)
+            hat.show_message("You lost.", scroll_speed = 0.05)
             break
             
         
@@ -308,7 +308,7 @@ def main():
                         pass
                         #hat.clear()
                         #hat.show_message("ENDLESS MODE...GO!")
-                    # lowlight line every 5 lines to show its going down
+                        # lowlight line every 5 lines to show its going down
                         #endlessMode(hat)
 # end of main
 
