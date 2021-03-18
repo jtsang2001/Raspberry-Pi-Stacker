@@ -12,6 +12,7 @@ from sense_emu import SenseHat, ACTION_PRESSED
 from array import *
 
 import time
+from datetime import timedelta
 
 # CONSTANTS
 SPEED = 0.2
@@ -63,26 +64,22 @@ def moveBlock(direction, currentX):
 # end of moveBlock
 
 #
+# --updatePrevLine Function--
+#
+def updatePrevLine(stacked, currentRow, hat):
+    index = 0
+    for x in stacked[currentRow+1]:
+        if x == 0:
+            hat.set_pixel(index, currentRow+1, WHITE)
+        elif x == 1:
+            hat.set_pixel(index, currentRow+1, CYAN)
+        index += 1
+# end of updatePrevLine()
+
+#
 # --normalMode Function--
 #
-def normalMode(hat):
-    #default starting location
-    currentRow = 7
-    currentX = [0,0,1,1,1,0,0,0]
-    
-    #default moving direction
-    direction = "left"
-
-    #default taken blocks
-    stacked = [[0,0,0,0,0,0,0,0],
-               [0,0,0,0,0,0,0,0],
-               [0,0,0,0,0,0,0,0],
-               [0,0,0,0,0,0,0,0],
-               [0,0,0,0,0,0,0,0],
-               [0,0,0,0,0,0,0,0],
-               [0,0,0,0,0,0,0,0],
-               [0,0,0,0,0,0,0,0]]
-    
+def normalMode(currentRow, currentX, direction, stacked, hat):
     # game loop
     gameLoop = True
     
@@ -142,15 +139,84 @@ def normalMode(hat):
             index += 1
         
         # update previous line if need to remove stuff
-        index = 0
         if clicked == True:
-            for x in stacked[currentRow+1]:
-                if x == 0:
-                    hat.set_pixel(index, currentRow+1, WHITE)
-                elif x == 1:
-                    hat.set_pixel(index, currentRow+1, CYAN)
-                index += 1
+            updatePrevLine(stacked, currentRow, hat)
 # end of normalMode
+
+#
+# --timeTrialMode Function--
+#
+def timeTrialMode(currentRow, currentX, direction, stacked, hat):
+    start_time = time.monotonic()
+
+    # game loop
+    gameLoop = True
+    
+    while gameLoop:
+        #Increase Difficulty as you get Higher
+        if currentRow > 4:
+            time.sleep(SPEED)
+        elif currentRow > 2:
+            time.sleep(SPEED * 0.8)
+        else:
+            time.sleep(SPEED * 0.6)
+        
+        #reset clicked flag
+        clicked = False
+        
+        # Register click events and increment row system.
+        events = hat.stick.get_events()
+        for event in events:
+            if event.action == ACTION_PRESSED:
+                clicked = True
+                if currentRow == 0:
+                    gameLoop = False
+                else:
+                    currentRow -= 1
+                
+        # Updates array to remove the blocks that are not on top of each other
+        if (currentRow+1) < 7 and clicked == True:
+            for i in range(len(stacked[currentRow+2])):
+                if currentX[i] != stacked[currentRow+2][i]:
+                    currentX[i] = 0
+                    stacked[currentRow+1][i] = 0
+        
+        #Checks if game is done
+        if currentX.count(1) == 0:
+            end_time = time.monotonic()
+            hat.show_message("You lost.", scroll_speed = 0.06)
+            break
+        elif gameLoop == False and currentX.count(1) != 0:
+            end_time = time.monotonic()
+            hat.show_message("You won!", scroll_speed = 0.06)
+            break
+        elif gameLoop == False and currentX.count(1) == 0:
+            end_time = time.monotonic()
+            hat.show_message("You lost.", scroll_speed = 0.06)
+            break
+            
+        
+        # Move the block and keep track of direction
+        direction = moveBlock(direction, currentX)
+        
+        # Adjust screen of pixels
+        index = 0
+        for x in currentX:
+            if x == 0:
+                hat.set_pixel(index, currentRow, WHITE)
+                stacked[currentRow][index] = 0
+            elif x == 1:
+                hat.set_pixel(index, currentRow, CYAN)
+                stacked[currentRow][index] = 1
+            index += 1
+        
+        # update previous line if need to remove stuff
+        if clicked == True:
+            updatePrevLine(stacked, currentRow, hat)
+    
+    # Print the time for us at the moment, will put in message!
+    print(timedelta(seconds=end_time - start_time))
+# end of timeTrialMode
 
 #
 # --Main Function--
@@ -169,6 +235,7 @@ def main():
                    [0,1,1,1,0,0,0,0],
                    [0,0,0,0,0,0,0,0]]
     
+    #Where to start the cursor on the welcome screen
     cursorSpot = 2
     
     checker = 0
@@ -191,6 +258,23 @@ def main():
         events = hat.stick.get_events()
         for event in events:
             if event.action == ACTION_PRESSED:
+                #default starting location
+                currentRow = 7
+                currentX = [0,0,1,1,1,0,0,0]
+                
+                #default moving direction
+                direction = "left"
+
+                #default taken blocks
+                stacked = [[0,0,0,0,0,0,0,0],
+                           [0,0,0,0,0,0,0,0],
+                           [0,0,0,0,0,0,0,0],
+                           [0,0,0,0,0,0,0,0],
+                           [0,0,0,0,0,0,0,0],
+                           [0,0,0,0,0,0,0,0],
+                           [0,0,0,0,0,0,0,0],
+                           [0,0,0,0,0,0,0,0]]
+    
                 if event.direction == "up":
                     if cursorSpot == 2:
                         cursorSpot = 6
@@ -209,13 +293,13 @@ def main():
                     if cursorSpot == 2:
                         hat.clear()
                         #hat.show_message("NORMAL MODE...GO!", scroll_speed=0.07)
-                        normalMode(hat)
+                        normalMode(currentRow, currentX, direction, stacked, hat)
                         hat.clear()
                     elif cursorSpot == 4:
-                        pass
-                        #hat.clear()
+                        hat.clear()
                         #hat.show_message("TIME TRIAL MODE...GO!")
-                        #timeTrialMode(hat)
+                        timeTrialMode(currentRow, currentX, direction, stacked, hat)
+                        hat.clear()
                     elif cursorSpot == 6:
                         pass
                         #hat.clear()
