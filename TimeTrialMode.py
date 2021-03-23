@@ -17,7 +17,7 @@ from StackerUpdater import moveBlock, updatePrevLine
 
 # CONSTANTS
 SPEED = 0.2
-WHITE = (0,0,0)
+CLEAR = (0,0,0)
 CYAN = (129, 240, 255)
 
 #
@@ -66,17 +66,17 @@ def timeTrialMode(currentRow, currentX, direction, stacked, hat):
         if currentX.count(1) == 0:
             endTime = time.monotonic()
             totalTime = timedelta(seconds=endTime - startTime)
-            hat.show_message("You lost. Time:" + str(totalTime.total_seconds())[:4] + " sec", scroll_speed = 0.05)
+            hat.show_message("You lost. Time: " + str(totalTime.total_seconds())[:4] + " sec", scroll_speed = 0.05)
             break
         elif gameLoop == False and currentX.count(1) != 0:
             endTime = time.monotonic()
             totalTime = timedelta(seconds=endTime - startTime)
-            hat.show_message("You won! Time:" + str(totalTime.total_seconds())[:4] + " sec", scroll_speed = 0.05)
+            hat.show_message("You won! Time: " + str(totalTime.total_seconds())[:4] + " sec", scroll_speed = 0.05)
             break
         elif gameLoop == False and currentX.count(1) == 0:
             endTime = time.monotonic()
             totalTime = timedelta(seconds=endTime - startTime)
-            hat.show_message("You lost. Time:" + str(totalTime.total_seconds())[:4] + " sec", scroll_speed = 0.05)
+            hat.show_message("You lost. Time: " + str(totalTime.total_seconds())[:4] + " sec", scroll_speed = 0.05)
             break
             
         
@@ -87,7 +87,7 @@ def timeTrialMode(currentRow, currentX, direction, stacked, hat):
         index = 0
         for x in currentX:
             if x == 0:
-                hat.set_pixel(index, currentRow, WHITE)
+                hat.set_pixel(index, currentRow, CLEAR)
                 stacked[currentRow][index] = 0
             elif x == 1:
                 hat.set_pixel(index, currentRow, CYAN)

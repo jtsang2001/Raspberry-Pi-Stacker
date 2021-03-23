@@ -9,7 +9,7 @@
 #
 
 # CONSTANTS
-WHITE = (0,0,0)
+CLEAR = (0,0,0)
 CYAN = (129, 240, 255)
 
 #
@@ -63,7 +63,7 @@ def updatePrevLine(stacked, currentRow, hat):
     index = 0
     for x in stacked[currentRow+1]:
         if x == 0:
-            hat.set_pixel(index, currentRow+1, WHITE)
+            hat.set_pixel(index, currentRow+1, CLEAR)
         elif x == 1:
             hat.set_pixel(index, currentRow+1, CYAN)
         index += 1

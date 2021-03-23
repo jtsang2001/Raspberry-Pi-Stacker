@@ -17,7 +17,7 @@ from StackerUpdater import moveBlock, updatePrevLine
 
 # CONSTANTS
 SPEED = 0.2
-WHITE = (0,0,0)
+CLEAR = (0,0,0)
 CYAN = (129, 240, 255)
 
 #
@@ -75,7 +75,7 @@ def normalMode(currentRow, currentX, direction, stacked, hat):
         index = 0
         for x in currentX:
             if x == 0:
-                hat.set_pixel(index, currentRow, WHITE)
+                hat.set_pixel(index, currentRow, CLEAR)
                 stacked[currentRow][index] = 0
             elif x == 1:
                 hat.set_pixel(index, currentRow, CYAN)

@@ -15,10 +15,11 @@ import time
 
 from NormalMode import normalMode
 from TimeTrialMode import timeTrialMode
+from EndlessMode import endlessMode
 
 # CONSTANTS
 SPEED = 0.2
-WHITE = (0,0,0)
+CLEAR = (0,0,0)
 CYAN = (129, 240, 255)
 
 #
@@ -54,9 +55,9 @@ def main():
         if checker % 2:
             hat.set_pixel(5, cursorSpot, 142, 68, 173)
         else:
-            hat.set_pixel(5, 2, WHITE)
-            hat.set_pixel(5, 4, WHITE)
-            hat.set_pixel(5, 6, WHITE)
+            hat.set_pixel(5, 2, CLEAR)
+            hat.set_pixel(5, 4, CLEAR)
+            hat.set_pixel(5, 6, CLEAR)
             
         events = hat.stick.get_events()
         for event in events:
@@ -104,11 +105,10 @@ def main():
                         timeTrialMode(currentRow, currentX, direction, stacked, hat)
                         hat.clear()
                     elif cursorSpot == 6:
-                        pass
-                        #hat.clear()
+                        hat.clear()
                         #hat.show_message("ENDLESS MODE...GO!")
-                        # lowlight line every 5 lines to show its going down
-                        #endlessMode(hat)
+                        endlessMode(currentRow, currentX, direction, stacked, hat)
+                        hat.clear()
 # end of main
 
 if __name__ == "__main__":
