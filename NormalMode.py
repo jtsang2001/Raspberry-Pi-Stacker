@@ -19,6 +19,8 @@ from StackerUpdater import moveBlock, updatePrevLine
 SPEED = 0.2
 CLEAR = (0,0,0)
 CYAN = (129, 240, 255)
+YELLOW = (244, 208, 63)
+RED = (255, 124, 126)
 
 #
 # --normalMode Function--
@@ -31,10 +33,10 @@ def normalMode(currentRow, currentX, direction, stacked, hat):
         #Increase Difficulty as you get Higher
         if currentRow > 4:
             time.sleep(SPEED)
-        elif currentRow > 2:
-            time.sleep(SPEED * 0.8)
+        elif currentRow > 1:
+            time.sleep(SPEED * 0.7)
         else:
-            time.sleep(SPEED * 0.6)
+            time.sleep(SPEED * 0.5)
         
         #reset clicked flag
         clicked = False
@@ -58,12 +60,15 @@ def normalMode(currentRow, currentX, direction, stacked, hat):
         
         #Checks if game is done
         if currentX.count(1) == 0:
+            time.sleep(0.5)
             hat.show_message("You lost.", scroll_speed = 0.05)
             break
         elif gameLoop == False and currentX.count(1) != 0:
+            time.sleep(0.5)
             hat.show_message("You won!", scroll_speed = 0.05)
             break
         elif gameLoop == False and currentX.count(1) == 0:
+            time.sleep(0.5)
             hat.show_message("You lost.", scroll_speed = 0.05)
             break
             
@@ -78,8 +83,15 @@ def normalMode(currentRow, currentX, direction, stacked, hat):
                 hat.set_pixel(index, currentRow, CLEAR)
                 stacked[currentRow][index] = 0
             elif x == 1:
-                hat.set_pixel(index, currentRow, CYAN)
-                stacked[currentRow][index] = 1
+                if currentRow > 4:
+                    hat.set_pixel(index, currentRow, CYAN)
+                    stacked[currentRow][index] = 1
+                elif currentRow > 1:
+                    hat.set_pixel(index, currentRow, YELLOW)
+                    stacked[currentRow][index] = 1
+                else:
+                    hat.set_pixel(index, currentRow, RED)
+                    stacked[currentRow][index] = 1
             index += 1
         
         # update previous line if need to remove stuff

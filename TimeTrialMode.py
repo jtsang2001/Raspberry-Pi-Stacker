@@ -19,6 +19,8 @@ from StackerUpdater import moveBlock, updatePrevLine
 SPEED = 0.2
 CLEAR = (0,0,0)
 CYAN = (129, 240, 255)
+YELLOW = (244, 208, 63)
+RED = (255, 124, 126)
 
 #
 # --timeTrialMode Function--
@@ -32,12 +34,12 @@ def timeTrialMode(currentRow, currentX, direction, stacked, hat):
     
     while gameLoop:
         #Increase Difficulty as you get Higher
-        if currentRow > 4:
-            time.sleep(SPEED)
+        if currentRow > 5:
+            time.sleep(SPEED * 0.95)
         elif currentRow > 2:
-            time.sleep(SPEED * 0.8)
+            time.sleep(SPEED * 0.7)
         else:
-            time.sleep(SPEED * 0.6)
+            time.sleep(SPEED * 0.5)
         
         #reset clicked flag
         clicked = False
@@ -66,16 +68,19 @@ def timeTrialMode(currentRow, currentX, direction, stacked, hat):
         if currentX.count(1) == 0:
             endTime = time.monotonic()
             totalTime = timedelta(seconds=endTime - startTime)
+            time.sleep(0.5)
             hat.show_message("You lost. Time: " + str(totalTime.total_seconds())[:4] + " sec", scroll_speed = 0.05)
             break
         elif gameLoop == False and currentX.count(1) != 0:
             endTime = time.monotonic()
             totalTime = timedelta(seconds=endTime - startTime)
+            time.sleep(0.5)
             hat.show_message("You won! Time: " + str(totalTime.total_seconds())[:4] + " sec", scroll_speed = 0.05)
             break
         elif gameLoop == False and currentX.count(1) == 0:
             endTime = time.monotonic()
             totalTime = timedelta(seconds=endTime - startTime)
+            time.sleep(0.5)
             hat.show_message("You lost. Time: " + str(totalTime.total_seconds())[:4] + " sec", scroll_speed = 0.05)
             break
             
@@ -90,8 +95,15 @@ def timeTrialMode(currentRow, currentX, direction, stacked, hat):
                 hat.set_pixel(index, currentRow, CLEAR)
                 stacked[currentRow][index] = 0
             elif x == 1:
-                hat.set_pixel(index, currentRow, CYAN)
-                stacked[currentRow][index] = 1
+                if currentRow > 5:
+                    hat.set_pixel(index, currentRow, CYAN)
+                    stacked[currentRow][index] = 1
+                elif currentRow > 2:
+                    hat.set_pixel(index, currentRow, YELLOW)
+                    stacked[currentRow][index] = 1
+                else:
+                    hat.set_pixel(index, currentRow, RED)
+                    stacked[currentRow][index] = 1
             index += 1
         
         # update previous line if need to remove stuff

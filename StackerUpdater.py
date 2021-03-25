@@ -64,7 +64,15 @@ def updatePrevLine(stacked, currentRow, hat):
     for x in stacked[currentRow+1]:
         if x == 0:
             hat.set_pixel(index, currentRow+1, CLEAR)
-        elif x == 1:
-            hat.set_pixel(index, currentRow+1, CYAN)
         index += 1
 # end of updatePrevLine
+
+#
+# --lowerStack Function--
+#
+def lowerStack(stacked, hat, colour):
+    for i in range(1, len(stacked)):
+        for j in range(0, len(stacked[i])):
+            if stacked[i][j] == 0:
+                hat.set_pixel(j, i, colour)
+#end of lowerStack
