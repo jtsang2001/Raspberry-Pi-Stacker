@@ -36,19 +36,15 @@ def endlessMode(currentRow, currentX, direction, stacked, hat):
     numberOfCompletedRows = 0
     
     while gameLoop:
-        if speedFlag:
-            print(speed)
         #Increase Difficulty as you get Higher
         if numberOfCompletedRows > 10 and speedFlag == True:
-            speed -= 0.00035
+            speed -= 0.001
         elif currentRow == 5 and speedFlag == True:
             speed = speed
         elif currentRow == 3 and speedFlag == True:
             speed = speed * 0.8
         elif currentRow == 1 and speedFlag == True:
             speed = speed * (0.6 / 0.8)
-#         elif currentRow == 0 and speedFlag == True:
-#             speed = speed * (0.5 / 0.6)
         
         time.sleep(speed)
         speedFlag = False
@@ -104,14 +100,23 @@ def endlessMode(currentRow, currentX, direction, stacked, hat):
             if x == 0:
                 if numberOfCompletedRows > 6:
                     if numberOfCompletedRows % 3 == 0:
-                        hat.set_pixel(index, currentRow, LIGHT_CYAN)
                         stacked[currentRow][index] = 0
+                        if numberOfCompletedRows % 2 == 1:
+                            hat.set_pixel(index, currentRow, LIGHT_CYAN)
+                        else:
+                            hat.set_pixel(index, currentRow, CLEAR)
                     elif numberOfCompletedRows % 3 == 1:
-                        hat.set_pixel(index, currentRow, LIGHT_YELLOW)
                         stacked[currentRow][index] = 0
+                        if numberOfCompletedRows % 2 == 1:
+                            hat.set_pixel(index, currentRow, LIGHT_CYAN)
+                        else:
+                            hat.set_pixel(index, currentRow, CLEAR)
                     elif numberOfCompletedRows % 3 == 2:
-                        hat.set_pixel(index, currentRow, LIGHT_RED)
                         stacked[currentRow][index] = 0
+                        if numberOfCompletedRows % 2 == 1:
+                            hat.set_pixel(index, currentRow, LIGHT_CYAN)
+                        else:
+                            hat.set_pixel(index, currentRow, CLEAR)
                 else:
                     hat.set_pixel(index, currentRow, CLEAR)
                     stacked[currentRow][index] = 0
@@ -125,10 +130,9 @@ def endlessMode(currentRow, currentX, direction, stacked, hat):
             updatePrevLine(stacked, currentRow, hat)
         elif clicked == True and numberOfCompletedRows > 6:
             if numberOfCompletedRows % 3 == 0:
-                lowerStack(stacked, hat, LIGHT_CYAN)
+                lowerStack(stacked, hat, numberOfCompletedRows)
             elif numberOfCompletedRows % 3 == 1:
-                lowerStack(stacked, hat, LIGHT_YELLOW)
+                lowerStack(stacked, hat, numberOfCompletedRows)
             elif numberOfCompletedRows % 3 == 2:
-                lowerStack(stacked, hat, LIGHT_RED)
-            
+                lowerStack(stacked, hat, numberOfCompletedRows)
 # end of endlessMode

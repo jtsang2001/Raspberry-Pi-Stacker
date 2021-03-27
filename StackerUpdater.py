@@ -11,6 +11,7 @@
 # CONSTANTS
 CLEAR = (0,0,0)
 CYAN = (129, 240, 255)
+LIGHT_CYAN = (37, 62, 65)
 
 #
 # --MoveBlock Function--
@@ -70,9 +71,14 @@ def updatePrevLine(stacked, currentRow, hat):
 #
 # --lowerStack Function--
 #
-def lowerStack(stacked, hat, colour):
+def lowerStack(stacked, hat, index):    # add sounds on button presses
+    rowIndex = index
     for i in range(1, len(stacked)):
         for j in range(0, len(stacked[i])):
             if stacked[i][j] == 0:
-                hat.set_pixel(j, i, colour)
+                if rowIndex % 2 == 0:
+                    hat.set_pixel(j, i, LIGHT_CYAN)
+                else:
+                    hat.set_pixel(j, i, CLEAR)
+        rowIndex += 1
 #end of lowerStack
