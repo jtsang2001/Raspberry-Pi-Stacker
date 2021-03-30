@@ -71,7 +71,7 @@ def updatePrevLine(stacked, currentRow, hat):
 #
 # --lowerStack Function--
 #
-def lowerStack(stacked, hat, index):    # add sounds on button presses
+def lowerStack(stacked, hat, index):
     rowIndex = index
     for i in range(1, len(stacked)):
         for j in range(0, len(stacked[i])):

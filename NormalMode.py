@@ -58,6 +58,26 @@ def normalMode(currentRow, currentX, direction, stacked, hat):
                     currentX[i] = 0
                     stacked[currentRow+1][i] = 0
         
+        # Removes a piece of the block at the 4th row and the 6th row
+        if currentRow == 1 and currentX.count(1) != 0:
+            numOfOnes = 0
+            index = 0
+            for i in range(len(currentX)):
+                if currentX[i] == 1:
+                    numOfOnes += 1
+                    index = i
+            if numOfOnes > 1:
+                currentX[index] = 0
+        elif currentRow == 4 and currentX.count(1) != 0:
+            numOfOnes = 0
+            index = 0
+            for i in range(len(currentX)):
+                if currentX[i] == 1:
+                    numOfOnes += 1
+                    index = i
+            if numOfOnes > 2:
+                currentX[index] = 0
+        
         #Checks if game is done
         if currentX.count(1) == 0:
             time.sleep(0.5)

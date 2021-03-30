@@ -61,9 +61,6 @@ def timeTrialMode(currentRow, currentX, direction, stacked, hat):
                     currentX[i] = 0
                     stacked[currentRow+1][i] = 0
         
-        # Print the time for us at the moment, will put in message!
-        #print(timedelta(seconds=end_time - start_time))
-        
         #Checks if game is done
         if currentX.count(1) == 0:
             endTime = time.monotonic()
