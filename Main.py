@@ -96,17 +96,17 @@ def main():
                 elif event.direction == "middle":
                     if cursorSpot == 2:
                         hat.clear()
-                        #hat.show_message("NORMAL MODE...GO!", scroll_speed=0.07)
+                        hat.show_message("NORMAL MODE...GO!", scroll_speed=0.06)
                         normalMode(currentRow, currentX, direction, stacked, hat)
                         hat.clear()
                     elif cursorSpot == 4:
                         hat.clear()
-                        #hat.show_message("TIME TRIAL MODE...GO!")
+                        hat.show_message("TIME TRIAL MODE...GO!", scroll_speed=0.06)
                         timeTrialMode(currentRow, currentX, direction, stacked, hat)
                         hat.clear()
                     elif cursorSpot == 6:
                         hat.clear()
-                        #hat.show_message("ENDLESS MODE...GO!")
+                        hat.show_message("ENDLESS MODE...GO!", scroll_speed=0.06)
                         endlessMode(currentRow, currentX, direction, stacked, hat)
                         hat.clear()
 # end of main
