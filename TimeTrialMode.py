@@ -29,9 +29,10 @@ def timeTrialMode(currentRow, currentX, direction, stacked, hat):
     # Start the timer
     startTime = time.monotonic()
 
-    # game loop
+    # Variable to keep track of gameLoop
     gameLoop = True
     
+    # Start the game loop, loop exits when user either wins or loses
     while gameLoop:
         #Increase Difficulty as you get Higher
         if currentRow > 5:
@@ -41,7 +42,7 @@ def timeTrialMode(currentRow, currentX, direction, stacked, hat):
         else:
             time.sleep(SPEED * 0.5)
         
-        #reset clicked flag
+        # Reset clicked flag
         clicked = False
         
         # Register click events and increment row system.
@@ -55,13 +56,19 @@ def timeTrialMode(currentRow, currentX, direction, stacked, hat):
                     currentRow -= 1
                 
         # Updates array to remove the blocks that are not on top of each other
+        #  Since this happens after the click we need to search the row that
+        #  is 2 rows below since we have moved up by one. We compare the current
+        #  row and that row that was 2 below to see if they are the same or
+        #  different, if different we update the array to remove it when we
+        #  update the screen later on in this game loop
         if (currentRow+1) < 7 and clicked == True:
             for i in range(len(stacked[currentRow+2])):
                 if currentX[i] != stacked[currentRow+2][i]:
                     currentX[i] = 0
                     stacked[currentRow+1][i] = 0
         
-        #Checks if game is done
+        # Checks if game is done
+        #  If it is, stop timer, get difference in time and then display a Win or Lose with the time it took
         if currentX.count(1) == 0:
             endTime = time.monotonic()
             totalTime = timedelta(seconds=endTime - startTime)
@@ -82,10 +89,10 @@ def timeTrialMode(currentRow, currentX, direction, stacked, hat):
             break
             
         
-        # Move the block and keep track of direction
+        # Call the moveBlock function in StackerUpdater.py to move the block and return a new direction
         direction = moveBlock(direction, currentX)
         
-        # Adjust screen of pixels
+        # Adjust the screen to colour or uncolour and pixels that need to be set or unset
         index = 0
         for x in currentX:
             if x == 0:
@@ -103,7 +110,8 @@ def timeTrialMode(currentRow, currentX, direction, stacked, hat):
                     stacked[currentRow][index] = 1
             index += 1
         
-        # update previous line if need to remove stuff
+        # This is where we remove the unwanted blocks from the screen.
+        # Calls the updatePrevLine function in StackerUpdater.py
         if clicked == True:
             updatePrevLine(stacked, currentRow, hat)
 # end of timeTrialMode
